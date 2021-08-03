@@ -87,7 +87,7 @@ h1:hover {
 /* modal */
 
 .modal-container {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.7);
     display: none;
     position: fixed;
     top: 0;
@@ -131,7 +131,7 @@ h3 {
 }
 
 .modal-content {
-    padding: 20px;
+    padding: 20px 25px;
     background-color: whitesmoke;
 }
 
@@ -142,6 +142,42 @@ h3 {
     to {
         opc: 1;
     }
+}
+
+.form-group {
+    height: 60px;
+}
+
+.form-input {
+    width: 97%;
+    padding: 5px;
+    border: 2px solid var(--primary-color);
+    display: block;
+    outline: none;
+}
+
+.form-label {
+    color: #000;
+    display: block;
+    font-size: 1rem;
+}
+
+button {
+    cursor: pointer;
+    color: #fff;
+    background-color: var(--primary-color);
+    width: 100px;
+    height: 30px;
+    border: none;
+    margin-top: 10px;
+}
+
+button:hover {
+    filter: brightness(110%);
+}
+
+button:focus {
+    outline: none;
 }
 
 
