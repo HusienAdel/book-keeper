@@ -12,6 +12,11 @@ const websiteUrlEl = document.querySelector("#website-url");
 // bookmar container
 const bookmarksContainer = document.querySelector("#bookmarks-container");
 
+
+
+
+let bookmarks = [];
+
 modalShow.addEventListener("click", showModal);
 
 function showModal() {
@@ -37,17 +42,39 @@ function validate(siteName, siteUrl) {
 
     const regex = new RegExp(expression);
 
-    if (!sitename || !siteUrl) {
+    if (!siteName || !siteUrl) {
         alert("please enter data");
         return false;
     }
 
     if (!siteUrl.match(regex)) {
-        alert("please privid url ");
+        alert("please enter valid  url ");
         return false;
     }
     return true;
 }
+
+
+
+function fetchBookmarks() {
+
+    if (localStorage.getItem('bookmarks')) {
+        bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+
+    } else {
+        bookmarks = [{
+
+
+            name: 'egydes',
+            url: 'https://www.egydes.com',
+        }, ];
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    }
+    buildBookmarks();
+
+
+}
+
 
 function storeBookmark(e) {
     e.preventDefault();
@@ -59,8 +86,80 @@ function storeBookmark(e) {
         siteUrl = `https://${siteUrl}`;
     }
     if (!validate(sitename, siteUrl)) {
+
         return false;
     }
 
+    const bookmark = {
+        name: sitename,
+        url: siteUrl
+    };
+
+    bookmarks.push(bookmark);
+
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    fetchBookmarks();
+    ShowBookmarks();
     bookmarkForm.reset();
 }
+
+fetchBookmarks();
+
+
+function buildBookmarks() {
+    bookmarks.forEach((bookmark) => {
+
+
+
+        const item = document.createElement('div');
+        item.classList.add('item');
+        const deleteButton = document.createElement('i');
+
+        deleteButton.className = 'far fa-times-circle';
+
+        deleteButton.setAttribute('id', 'delete');
+        const name = document.createElement('div');
+        name.classList.add('name');
+        const img = document.createElement('img');
+        img.setAttribute('src', `https://s2.googleusercontent.com/s2/favicons?domain=${bookmark.url}`);
+
+        const link = document.createElement('a');
+        link.setAttribute('href', `${bookmark.url}`);
+        link.setAttribute('target', '_blank');
+        link.textContent = bookmark.name;
+
+
+        name.appendChild(img);
+        name.appendChild(link);
+        item.appendChild(name);
+        item.appendChild(deleteButton);
+
+        bookmarksContainer.appendChild(item);
+
+
+
+
+
+
+
+
+
+    })
+}
+
+const deleteButtons = document.querySelectorAll('#delete');
+
+deleteButtons.forEach((delbt) => {
+
+
+
+    delbt.addEventListener('click', (e) => {
+        let key = e.target.parentElement.querySelector('a').textContent;
+        let value = e.target.parentElement.querySelector('a').getAttribute('href');
+        localStorage.removeItem('bookmarks', JSON.stringify({ name: key, url: value }));
+
+        e.target.parentElement.remove();
+
+    });
+
+})

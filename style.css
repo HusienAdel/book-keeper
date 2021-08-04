@@ -188,3 +188,7 @@ button:focus {
         flex-direction: column;
     }
 }
+
+#delete {
+    font-size: 1.5rem;
+}
