@@ -36,13 +36,17 @@ function validate(siteName, siteUrl) {
         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
 
     const regex = new RegExp(expression);
-    if (siteUrl.match(regex)) {
-        alert("match");
+
+    if (!sitename || !siteUrl) {
+        alert("please enter data");
+        return false;
     }
 
     if (!siteUrl.match(regex)) {
         alert("please privid url ");
+        return false;
     }
+    return true;
 }
 
 function storeBookmark(e) {
@@ -51,7 +55,12 @@ function storeBookmark(e) {
     const sitename = websiteNameEl.value;
     let siteUrl = websiteUrlEl.value;
 
-    validate(siteUrl, sitename);
+    if (!siteUrl.includes("http://") && !siteUrl.includes("https://")) {
+        siteUrl = `https://${siteUrl}`;
+    }
+    if (!validate(sitename, siteUrl)) {
+        return false;
+    }
 
     bookmarkForm.reset();
 }
