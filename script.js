@@ -71,8 +71,8 @@ function fetchBookmarks() {
 function storeBookmark(e) {
     e.preventDefault();
 
-    let sitename = websiteNameEl.value;
-    let siteUrl = websiteUrlEl.value;
+    let sitename = websiteNameEl.value.trim();
+    let siteUrl = websiteUrlEl.value.trim();
 
     if (!siteUrl.includes("http://") && !siteUrl.includes("https://")) {
         siteUrl = `https://${siteUrl}`;
