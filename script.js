@@ -51,7 +51,7 @@ function validate(siteName, siteUrl) {
 }
 
 function fetchBookmarks() {
-    if (localStorage.getItem('bookmarks') !=="[]") {
+    if (localStorage.getItem('bookmarks') !== "[]" && localStorage.getItem('bookmarks') !== null) {
 
         bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
     } else  {
