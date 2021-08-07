@@ -12,7 +12,7 @@ const websiteUrlEl = document.querySelector("#website-url");
 // bookmar container
 const bookmarksContainer = document.querySelector("#bookmarks-container");
 
-let bookmarks = [];
+let bookmarks = {};
 
 modalShow.addEventListener("click", showModal);
 
@@ -55,13 +55,12 @@ function fetchBookmarks() {
 
         bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
     } else  {
-
-        bookmarks = [
+        const id ='https://www.egydes.com';
+        bookmarks[id] = 
             {
-                name: "egydes",
-                url: "https://www.egydes.com",
-            },
-        ];
+            name: "egydes",
+            url: "https://www.egydes.com"
+        };
         localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
 
     }
@@ -82,16 +81,18 @@ function storeBookmark(e) {
     }
 
     const bookmark = {
+       
         name: sitename,
-        url: siteUrl,
+        url: siteUrl
+       
     };
 
-    bookmarks.push(bookmark);
-    console.log(bookmark);
+    bookmarks[siteUrl] = bookmark;
+    
 
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
     fetchBookmarks();
-    buildBookmarks();
+    
     bookmarkForm.reset();
 }
 
@@ -99,7 +100,13 @@ function storeBookmark(e) {
 function buildBookmarks() {
     bookmarksContainer.textContent = '';
 
-    bookmarks.forEach((bookmark) => {
+    Object.keys(bookmarks).forEach((id) => {
+
+   
+        const bookname = bookmarks[id].name,
+            bookurl = bookmarks[id].url;
+       
+
         const item = document.createElement("div");
         item.classList.add("item");
         const deleteButton = document.createElement("i");
@@ -110,7 +117,7 @@ function buildBookmarks() {
 
 
 
-        deleteButton.setAttribute('onclick', `deleteBookmark('${bookmark.url}')`);
+        deleteButton.setAttribute('onclick', `deleteBookmark('${id}')`);
 
 
         const name = document.createElement("div");
@@ -118,13 +125,13 @@ function buildBookmarks() {
         const img = document.createElement("img");
         img.setAttribute(
             "src",
-            `https://s2.googleusercontent.com/s2/favicons?domain=${bookmark.url}`
+            `https://s2.googleusercontent.com/s2/favicons?domain=${bookurl}`
         );
 
         const link = document.createElement("a");
-        link.setAttribute("href", `${bookmark.url}`);
+        link.setAttribute("href", `${bookurl}`);
         link.setAttribute("target", "_blank");
-        link.textContent = bookmark.name;
+        link.textContent = bookname;
 
         name.append(img);
         name.append(link);
@@ -139,12 +146,12 @@ function buildBookmarks() {
 }
 
 
-function deleteBookmark(myUrl) {
-    bookmarks.forEach((bookmark, i) => {
-        if (bookmark.url === myUrl) {
-            bookmarks.splice(i, 1);
+function deleteBookmark(id) {
+    
+        if (bookmarks[id]) {
+            delete bookmarks[id];
         }
-    });
+   
 
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
     fetchBookmarks();
