@@ -192,3 +192,15 @@ button:focus {
 #delete {
     font-size: 1.5rem;
 }
+
+.desc {
+    max-width:650px;
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+    font-size: 1.2rem;
+    background-color: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-radius: 5px;
+}
